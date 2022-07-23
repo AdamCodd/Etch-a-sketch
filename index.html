@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etch-a-Sketch</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mada&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>Etch-A-Sketch</h1>
+    </header>
+    <main>
+        <section id="sidebar">
+            <input type="color" id="colorpicker" value="#333333">
+            <div id="opacityRange">
+                <p>Opacity: 100</p>
+                <input type="range" id="opacitySlider" value="100" min="1" max="100">
+            </div>
+            <button id="rainbowBtn" value="Random color">Random color</button>
+            <button id="eraserBtn" value="Erase mode">Erase mode</button>
+            <button id="clearBtn" value="Clear sketch">Clear sketch</button>
+            <div id="sizeSketch">
+                <p>16x16</p>
+                <input type="range" id="sizeSlider" value="16" min="1" max="100">
+            </div>
+        </section>
+        <section id="sketch">
+        </section>
+    </main>
+    <footer>
+        <p id="copyright">Copyright © 2022 – AdamCodd</p>
+    </footer>
+</body>
+
+</html>
