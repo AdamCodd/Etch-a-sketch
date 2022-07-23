@@ -1,5 +1,6 @@
 html {
     box-sizing: border-box;
+    outline: 0;
 }
 
 *,
@@ -40,7 +41,7 @@ main {
 
 /* Sidebar settings */
 #sidebar {
-    padding-top: 20px;
+    padding-top: 10px;
     display: flex;
     flex-direction: column;
     gap: 30px;
@@ -49,6 +50,7 @@ main {
 }
 
 button {
+    font-size: 1.1em;
     padding: 10px 20px;
     width: 100%;
     border-radius: 10px;
@@ -72,6 +74,7 @@ button {
     border: none;
     cursor: pointer;
     background: none;
+    outline: 0;
     transition: .5s ease-in-out;
 }
 
@@ -80,7 +83,7 @@ button {
     transition: .5s ease-in-out;
 }
 
-/* Round colorpicker only on Chrome for now */
+/* Round colorpicker works only on Chrome. Added a little hack for firefox */
 #colorpicker::-webkit-color-swatch-wrapper {
     padding: 0;
 }
@@ -94,6 +97,31 @@ button {
 @supports (-moz-appearance:none) {
     #colorpicker {
         clip-path: circle(50% at 50% 50%);
+    }
+}
+
+/* Custom slider for the sketch size only on Chrome */
+
+@supports not (-moz-appearance:none) {
+    #sizeSlider {
+        -webkit-appearance: none;
+        background-color: #FFF;
+    }
+
+    #sizeSlider::-webkit-slider-runnable-track {
+        height: 10px;
+        border: 1px solid #333;
+        border-radius: 10px;
+        background: #e3e3e3;
+    }
+
+    #sizeSlider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 24px;
+        height: 24px;
+        border-radius: 25px;
+        background: #333;
+        margin-top: -8px;
     }
 }
 
