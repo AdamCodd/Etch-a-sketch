@@ -54,6 +54,7 @@ button {
     border-radius: 10px;
     background: #ffffff;
     cursor: pointer;
+    outline: 0;
 }
 
 #sketch {
@@ -106,7 +107,7 @@ button {
 }
 
 #copyright {
-    font-size: x-large;
+    font-size: large;
 }
 
 @media screen and (max-width: 650px) {
