@@ -1,6 +1,5 @@
 html {
     box-sizing: border-box;
-    outline: 0;
 }
 
 *,
@@ -57,6 +56,17 @@ button {
     background: #ffffff;
     cursor: pointer;
     outline: 0;
+    transition: .1s ease-in;
+}
+
+button:hover {
+    transform: scale(1.07);
+    transition: .1s ease-in;
+}
+
+.active {
+    color: #FFFFFF;
+    background-color: #333;
 }
 
 #sketch {
