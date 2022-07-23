@@ -1,0 +1,139 @@
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Mada', sans-serif;
+    background: #fff7ef;
+}
+
+header,
+footer {
+    margin: auto;
+    padding: 30px 0;
+}
+
+h1 {
+    font-size: 50px;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    gap: 140px;
+    flex-wrap: wrap;
+    align-content: center;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* Sidebar settings */
+#sidebar {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 200px;
+    align-items: center;
+}
+
+button {
+    padding: 10px 20px;
+    width: 100%;
+    border-radius: 10px;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+#sketch {
+    height: 500px;
+    width: 500px;
+    display: flex;
+    background-color: white;
+    border: 1px solid #CCCCCC;
+    box-shadow: 0px 0px 7px #817f7f;
+}
+
+#colorpicker {
+    height: 90px;
+    width: 90px;
+    border: none;
+    cursor: pointer;
+    background: none;
+}
+
+/* Round colorpicker only on Chrome for now */
+#colorpicker::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+#colorpicker::-webkit-color-swatch {
+    border: none;
+    border-radius: 50px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+@supports (-moz-appearance:none) {
+    #colorpicker {
+        clip-path: circle(50% at 50% 50%);
+    }
+}
+
+#sizeSketch p,
+#opacityRange p {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 1.3em;
+    font-family: auto;
+}
+
+#opacityRange,
+#opacitySlider,
+#sizeSketch,
+#sizeSlider {
+    width: 100%;
+}
+
+#copyright {
+    font-size: x-large;
+}
+
+@media screen and (max-width: 650px) {
+    main {
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    #sketch {
+        width: 300px;
+        height: 300px;
+    }
+
+    #copyright {
+        font-size: medium;
+        margin-top: 50px;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    main {
+        gap: 50px;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    main {
+        justify-content: center;
+    }
+}
