@@ -116,6 +116,7 @@ button:hover {
     #sizeSlider {
         -webkit-appearance: none;
         background-color: #FFF;
+        outline: 0;
     }
 
     #sizeSlider::-webkit-slider-runnable-track {
