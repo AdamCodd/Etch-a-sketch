@@ -18,6 +18,25 @@ eraseButton.addEventListener('click', () => {
     }
 });
 
+let rainbowButton = document.getElementById('rainbowBtn');
+let randomMode = false;
+rainbowBtn.addEventListener('click', () => {
+    if (!randomMode) {
+        randomMode = true;
+        rainbowButton.textContent = "Normal mode";
+    }
+    else if (randomMode) {
+        randomMode = false;
+        rainbowButton.textContent = "Random mode";
+    }
+});
+
+let clearButton = document.getElementById('clearBtn');
+clearButton.onclick = () => {
+    let confirmed = confirm("Your sketch will be deleted. That's fine?");
+    if (confirmed) GenerateSquare();
+}
+
 let mouseclick = false;
 window.addEventListener('mousedown', () => { mouseclick = true; });
 window.addEventListener('mouseup', () => { mouseclick = false; });
@@ -42,6 +61,12 @@ function Colorchange(event) {
     event.target.style.backgroundColor = `${color.value}`;
     if (eraseclick) {
         event.target.style.backgroundColor = "#FFFFFF";
+    }
+    if (randomMode) {
+        let red = Math.floor(Math.random() * 255);
+        let green = Math.floor(Math.random() * 255);
+        let blue = Math.floor(Math.random() * 255);
+        event.target.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
     }
 }
 
