@@ -1,11 +1,9 @@
 const squareSize = document.getElementById('sizeSlider');
 const wrapperSquare = document.getElementById('sketch');
 const color = document.getElementById('colorpicker');
+const opacitySlide = document.getElementById('opacitySlider');
 
-squareSize.value = Math.min(64, squareSize.value);
-let calcSize = (wrapperSquare.offsetHeight / squareSize.value) + "px";
-
-/* Grid icon button */
+/* Grid icon button & Grid mode */
 let gridMode = false;
 let grid = document.getElementById('icon-container');
 let gridSquare = document.querySelectorAll('.square');
@@ -25,6 +23,20 @@ grid.addEventListener('click', () => {
         Gridmode();
     }
 });
+
+
+function Gridmode() {
+    if (gridMode) {
+        const allSquares = document.querySelectorAll('#sketch > div')
+        allSquares.forEach(square =>
+            square.style.setProperty('border', '1px solid black'));
+    }
+    if (!gridMode) {
+        const allSquares = document.querySelectorAll('#sketch > div')
+        allSquares.forEach(square =>
+            square.style.setProperty('border', 'none'));
+    }
+}
 
 let eraseButton = document.getElementById('eraserBtn');
 let eraseclick = false;
@@ -65,27 +77,29 @@ clearButton.onclick = () => {
 }
 
 let mouseclick = false;
-window.addEventListener('mousedown', () => { mouseclick = true; });
-window.addEventListener('mouseup', () => { mouseclick = false; });
+document.body.addEventListener('mousedown', () => { mouseclick = true; });
+document.body.addEventListener('mouseup', () => { mouseclick = false; });
 
+let fragment = new DocumentFragment();
 function GenerateSquare() {
     wrapperSquare.textContent = '';
+    let sizeOfSketch = Math.min(64, squareSize.value);
     let calcSize = (wrapperSquare.offsetHeight / squareSize.value) + "px";
-    for (let i = 1; i <= squareSize.value * squareSize.value; i++) {
+    for (let i = 1; i <= sizeOfSketch * sizeOfSketch; i++) {
         const square = document.createElement('div');
         square.style.cssText = `height: ${calcSize}; width: ${calcSize};`;
-        square.setAttribute('draggable', false);
         square.addEventListener('mousedown', Colorchange);
         square.addEventListener('mouseover', Colorchange);
-        wrapperSquare.appendChild(square);
+        fragment.appendChild(square);
     }
+    wrapperSquare.appendChild(fragment);
 }
 GenerateSquare();
-
 
 function Colorchange(event) {
     if (event.type === "mouseover" && !mouseclick) return
     event.target.style.backgroundColor = `${color.value}`;
+    event.target.style.opacity = opacitySlide.value / 100;
     if (eraseclick) {
         event.target.style.backgroundColor = "#FFFFFF";
     }
@@ -97,21 +111,13 @@ function Colorchange(event) {
     }
 }
 
-function Gridmode() {
-    if (gridMode) {
-        const allSquares = document.querySelectorAll('#sketch > div')
-        allSquares.forEach(square =>
-            square.style.setProperty('border', '1px solid black'));
-    }
-    if (!gridMode) {
-        const allSquares = document.querySelectorAll('#sketch > div')
-        allSquares.forEach(square =>
-            square.style.setProperty('border', 'none'));
-    }
-}
+const sizeTxt = document.querySelector('#sizeSketch p');
+squareSize.addEventListener('change', () => {
+    GenerateSquare();
+    sizeTxt.textContent = `${squareSize.value} x ${squareSize.value}`;
+});
 
-
-squareSize.addEventListener('input', () => {
-    setTimeout(GenerateSquare, 60 * calcSize);
-    sizeSketch.firstElementChild.textContent = `${squareSize.value} x ${squareSize.value}`;
+const opacityTxt = document.querySelector('#opacityRange p');
+opacitySlide.addEventListener('change', () => {
+    opacityTxt.textContent = `Opacity: ${opacitySlide.value}`;
 });
