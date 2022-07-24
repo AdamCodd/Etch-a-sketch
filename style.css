@@ -23,8 +23,29 @@ footer {
     padding: 30px 0;
 }
 
+header {
+    display: flex;
+}
+
 h1 {
     font-size: 50px;
+    margin-right: 20px;
+}
+
+#icon-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    width: 25px;
+    align-self: center;
+    height: 25px;
+}
+
+.square {
+    height: 10px;
+    width: 10px;
+    flex: 1 0 auto;
+    border: 2px solid black;
 }
 
 main {
