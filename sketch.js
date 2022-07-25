@@ -128,6 +128,7 @@ function Colorchange(event) {
 const sizeTxt = document.querySelector('#sizeSketch p');
 squareSize.addEventListener('change', () => {
     GenerateSquare();
+    Gridmode();
     sizeTxt.textContent = `${squareSize.value} x ${squareSize.value}`;
 });
 
