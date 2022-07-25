@@ -109,12 +109,19 @@ let fragment = new DocumentFragment();
 function GenerateSquare() {
     wrapperSquare.textContent = '';
     let sizeOfSketch = Math.min(64, squareSize.value);
-    let calcSize = (wrapperSquare.offsetHeight / squareSize.value) + "px";
+    let calcSize = (wrapperSquare.clientHeight / squareSize.value) + "px";
     for (let i = 1; i <= sizeOfSketch * sizeOfSketch; i++) {
         const square = document.createElement('div');
         square.style.cssText = `height: ${calcSize}; width: ${calcSize};`;
         square.addEventListener('mousedown', Colorchange);
-        square.addEventListener('mouseover', Colorchange);
+        if (window.mobileCheck()) {
+            console.log("on mobile!");
+            square.addEventListener('touchmove', Colorchange);
+        }
+        else if (!window.mobileCheck()) {
+            square.addEventListener('mouseover', Colorchange);
+        }
+
         fragment.appendChild(square);
     }
     wrapperSquare.appendChild(fragment);
@@ -123,6 +130,11 @@ GenerateSquare();
 
 function Colorchange(event) {
     if (event.type === "mouseover" && !mouseclick) return
+    if (event.type === "touchmove") {
+        event.preventDefault();
+        event.target.style.backgroundColor = `${color.value}`;
+        event.target.style.opacity = opacitySlide.value / 100;
+    }
     event.target.style.backgroundColor = `${color.value}`;
     event.target.style.opacity = opacitySlide.value / 100;
     if (eraseclick) {
