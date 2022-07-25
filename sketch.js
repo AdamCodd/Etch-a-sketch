@@ -43,24 +43,41 @@ let eraseclick = false;
 eraseButton.addEventListener('click', () => {
     if (!eraseclick) {
         eraseclick = true;
-        eraseButton.textContent = "Color mode";
+        eraseButton.classList.toggle('active');
     }
     else if (eraseclick) {
         eraseclick = false;
-        eraseButton.textContent = "Erase mode";
+        eraseButton.classList.toggle('active');
     }
 });
 
+/* Mode rainbow with random color on button and sketch */
+
 let rainbowButton = document.getElementById('rainbowBtn');
 let randomMode = false;
+
+function getRandomColor() {
+    return "#000000".replace(/0/g, function () {
+        return (~~(Math.random() * 16)).toString(16);
+    });
+}
+function getRandomDirection() {
+    var directions = ['top left', 'top right', 'bottom left', 'bottom right'];
+    return directions[Math.floor(Math.random() * directions.length)];
+}
+
 rainbowBtn.addEventListener('click', () => {
     if (!randomMode) {
         randomMode = true;
-        rainbowButton.textContent = "Normal mode";
+        rainbowButton.style.color = "#FFFFFF";
+        rainbowButton.style.background = 'linear-gradient(to ' + getRandomDirection() + ',' + getRandomColor() + ' 0%,' + getRandomColor() + ' 100%)';
+        console.log(rainbowButton.style.background);
+        console.log("RandomMode: " + randomMode);
     }
     else if (randomMode) {
         randomMode = false;
-        rainbowButton.textContent = "Random mode";
+        rainbowButton.style.color = "#333333";
+        rainbowButton.style.background = "#FFFFFF";
     }
 });
 
@@ -103,11 +120,8 @@ function Colorchange(event) {
     if (eraseclick) {
         event.target.style.backgroundColor = "#FFFFFF";
     }
-    if (randomMode) {
-        let red = Math.floor(Math.random() * 255);
-        let green = Math.floor(Math.random() * 255);
-        let blue = Math.floor(Math.random() * 255);
-        event.target.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+    if (randomMode && !eraseclick) {
+        event.target.style.backgroundColor = getRandomColor();
     }
 }
 
