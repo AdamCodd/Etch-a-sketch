@@ -109,14 +109,13 @@ let fragment = new DocumentFragment();
 function GenerateSquare() {
     wrapperSquare.textContent = '';
     let sizeOfSketch = Math.min(64, squareSize.value);
-    let calcSize = (wrapperSquare.clientHeight / squareSize.value) + "px";
+    let calcSize = (wrapperSquare.clientWidth / squareSize.value) + "px";
     for (let i = 1; i <= sizeOfSketch * sizeOfSketch; i++) {
         const square = document.createElement('div');
         square.style.cssText = `height: ${calcSize}; width: ${calcSize};`;
         square.addEventListener('mousedown', Colorchange);
         if (window.mobileCheck()) {
-            console.log("on mobile!");
-            square.addEventListener('touchmove', Colorchange);
+            square.addEventListener('touchmove', Colorchange, { passive: true });
         }
         else if (!window.mobileCheck()) {
             square.addEventListener('mouseover', Colorchange);
@@ -129,12 +128,8 @@ function GenerateSquare() {
 GenerateSquare();
 
 function Colorchange(event) {
-    if (event.type === "mouseover" && !mouseclick) return
-    if (event.type === "touchmove") {
-        event.preventDefault();
-        event.target.style.backgroundColor = `${color.value}`;
-        event.target.style.opacity = opacitySlide.value / 100;
-    }
+    if (event.type === "mouseover" && !mouseclick) return;
+    if (event.type === "touchmove" && !mouseclick) return;
     event.target.style.backgroundColor = `${color.value}`;
     event.target.style.opacity = opacitySlide.value / 100;
     if (eraseclick) {
