@@ -5,97 +5,70 @@ const opacitySlide = document.getElementById('opacitySlider');
 
 /* Grid icon button & Grid mode */
 let gridMode = false;
-let grid = document.getElementById('icon-container');
-let gridSquare = document.querySelectorAll('.square');
-grid.addEventListener('click', () => {
-    if (!gridMode) {
+const grid = document.getElementById('icon-container');
+const gridSquare = document.querySelectorAll('.square');
+
+function gridMaker() {
+    const allSquares = document.querySelectorAll('#sketch > div');
+    if (gridMode === false) {
+        gridSquare.forEach(gridicon => gridicon.style.setProperty('border', '2px solid darkred'));
+        allSquares.forEach(square => square.style.setProperty('border', '1px solid black'));
         gridMode = true;
-        gridSquare.forEach(gridicon => {
-            gridicon.style.setProperty('border', '2px solid darkred');
-        });
-        Gridmode();
     }
-    else if (gridMode) {
+    else if (gridMode === true) {
+        allSquares.forEach(square => square.style.setProperty('border', 'none'));
+        gridSquare.forEach(gridicon => gridicon.style.setProperty('border', '2px solid black'));
         gridMode = false;
-        gridSquare.forEach(gridicon => {
-            gridicon.style.setProperty('border', '2px solid black');
-        });
-        Gridmode();
-    }
-});
-
-
-function Gridmode() {
-    if (gridMode) {
-        const allSquares = document.querySelectorAll('#sketch > div')
-        allSquares.forEach(square =>
-            square.style.setProperty('border', '1px solid black'));
-    }
-    if (!gridMode) {
-        const allSquares = document.querySelectorAll('#sketch > div')
-        allSquares.forEach(square =>
-            square.style.setProperty('border', 'none'));
     }
 }
 
-let eraseButton = document.getElementById('eraserBtn');
-let eraseclick = false;
-eraseButton.addEventListener('click', () => {
-    if (!eraseclick) {
-        eraseclick = true;
-        eraseButton.classList.toggle('active');
-    }
-    else if (eraseclick) {
-        eraseclick = false;
-        eraseButton.classList.toggle('active');
-    }
-});
+grid.addEventListener('click', gridMaker);
+
+
+const eraseButton = document.getElementById('eraserBtn');
+eraseButton.addEventListener('click', () => eraseButton.classList.toggle('active'));
 
 /* Mode rainbow with random color on button and sketch */
-
-let rainbowButton = document.getElementById('rainbowBtn');
 let randomMode = false;
+const rainbowButton = document.getElementById('rainbowBtn');
 
 function getRandomColor() {
-    return "#000000".replace(/0/g, function () {
-        return (~~(Math.random() * 16)).toString(16);
-    });
+    return "#000000".replace(/0/g, () => (~~(Math.random() * 16)).toString(16));
 }
 function getRandomDirection() {
-    var directions = ['top left', 'top right', 'bottom left', 'bottom right'];
+    let directions = ['top left', 'top right', 'bottom left', 'bottom right'];
     return directions[Math.floor(Math.random() * directions.length)];
 }
 
-rainbowBtn.addEventListener('click', () => {
-    if (!randomMode) {
+function randomColor() {
+    if (randomMode === false) {
         randomMode = true;
         rainbowButton.style.color = "#FFFFFF";
         rainbowButton.style.background = 'linear-gradient(to ' + getRandomDirection() + ',' + getRandomColor() + ' 0%,' + getRandomColor() + ' 100%)';
-        console.log(rainbowButton.style.background);
-        console.log("RandomMode: " + randomMode);
     }
-    else if (randomMode) {
+    else if (randomMode === true) {
         randomMode = false;
         rainbowButton.style.color = "#333333";
         rainbowButton.style.background = "#FFFFFF";
     }
-});
+}
 
-let clearButton = document.getElementById('clearBtn');
+rainbowBtn.addEventListener('click', randomColor);
+
+
+const clearButton = document.getElementById('clearBtn');
 clearButton.onclick = () => {
-    let confirmed = confirm("Your sketch will be deleted. That's fine?");
+    const confirmed = confirm("Your sketch will be deleted. That's fine?");
     if (confirmed) {
         gridMode = false;
-        gridSquare.forEach(gridicon => {
-            gridicon.style.setProperty('border', '2px solid black');
-        });
+        gridSquare.forEach(gridicon => gridicon.style.setProperty('border', '2px solid black'));
         GenerateSquare();
     }
 }
 
 let mouseclick = false;
-document.body.addEventListener('mousedown', () => { mouseclick = true; });
-document.body.addEventListener('mouseup', () => { mouseclick = false; });
+document.body.addEventListener('mousedown', () => mouseclick = true);
+document.body.addEventListener('mouseup', () => mouseclick = false);
 
 let fragment = new DocumentFragment();
 function GenerateSquare() {
@@ -118,10 +91,11 @@ function Colorchange(event) {
     if (event.type === "mouseover" && !mouseclick) return;
     event.target.style.backgroundColor = `${color.value}`;
     event.target.style.opacity = opacitySlide.value / 100;
-    if (eraseclick) {
+
+    if (eraseButton.classList.contains('active')) {
         event.target.style.backgroundColor = "#FFFFFF";
     }
-    if (randomMode && !eraseclick) {
+    else if (randomMode && !eraseButton.classList.contains('active')) {
         event.target.style.backgroundColor = getRandomColor();
     }
 }
@@ -129,7 +103,10 @@ function Colorchange(event) {
 const sizeTxt = document.querySelector('#sizeSketch p');
 squareSize.addEventListener('change', () => {
     GenerateSquare();
-    Gridmode();
+    if (gridMode === true) {
+        gridMode = false;
+        gridMaker();
+    }
     sizeTxt.textContent = `${squareSize.value} x ${squareSize.value}`;
 });
 
